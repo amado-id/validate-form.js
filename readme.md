@@ -10,21 +10,21 @@
 			focusValidate: true,
 			fields: [
 				{
-					fieldName: 'name',
+					selector: '[name="name"]',
 					maxLength: 32,
 					realTimeRegExp: 'text',
 					realTime: true,
 					required: true
 				},
 				{
-					fieldName: 'phone',
+					selector: '[name="phone"]',
 					realTimeRegExp: 'phone',
 					realTime: true,
 					required: true,
 					mask: '+7 (***) ***-**-**'
 				},
 				{
-					fieldName: 'checkbox',
+					selector: '[name="checkbox"]',
 					required: true
 				}
 			]
@@ -61,10 +61,10 @@
     <td><b>Описание</b></td>
   </tr>
   <tr>
-    <td>fieldName</td>
+    <td>selector</td>
     <td>string</td>
     <td>-</td>
-    <td>Селектор поля. Передаем 'name', либо '.someClass'</td>
+    <td>Селектор поля.</td>
   </tr>
   <tr>
     <td>maxLength</td>

@@ -6,28 +6,29 @@ document.addEventListener('DOMContentLoaded', function() {
 			focusValidate: true,
 			fields: [
 				{
-					fieldName: 'name',
+					selector: '[name="name"]',
 					maxLength: 32,
 					realTimeRegExp: 'text',
 					realTime: true,
 					required: true
 				},
 				{
-					fieldName: 'phone',
+					selector: '[name="phone"]',
 					realTimeRegExp: 'phone',
 					realTime: true,
 					required: true,
+					regExp: 'phone',
 					mask: '+7 (***) ***-**-**'
 				},
 				{
-					fieldName: 'checkbox',
+					selector: '[name="checkbox"]',
 					required: true
 				}
 			]
 		});
 
-		form.on('submit', function(e) {
-			e.preventDefault()
-		})
+		// form.on('submit', function(e) {
+		// 	e.preventDefault()
+		// })
 	}
 })

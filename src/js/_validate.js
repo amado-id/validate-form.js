@@ -26,7 +26,7 @@ class FormObj {
 		}
 
 		this.realTimePresets = {
-			text: /[^\,A-Za-zА-Яа-я0-9 ]+/g,
+			text: /[^\,A-Za-zА-Яа-я0-9.,@\-_#№%*+=$"!/ ]+/g,
 			phone: /[^0-9+-_() ]+/g,
 			num: /[^0-9]+/g,
 			letters: /[^a-zA-Zа-яА-я]+/g,
@@ -60,12 +60,7 @@ class FormObj {
 	}
 
 	validateField(field) {
-		let elem;
-		if (!(field.fieldName[0] == '.')) {
-			elem = this.form.querySelector(`input[name='${field.fieldName}']`);
-		} else {
-			elem = this.form.querySelector(`${field.fieldName}`);
-		}
+		const elem = this.form.querySelector(field.selector);
 
 		if (elem) {
 			if (elem.type == 'checkbox' && field.required && !elem.checked) {
@@ -95,7 +90,7 @@ class FormObj {
 				return;
 			}
 
-			if (field.regExp) {
+			if (field.regExp && elem.value.length > 0) {
 				let regExp = this.presets[field.regExp] ? this.presets[field.regExp] : field.regExp;
 				if (!regExp.test(elem.value)) {
 					this.setClass(elem, 'error');
@@ -119,14 +114,12 @@ class FormObj {
 
 	mask(e, mask, regExp = /\D/g) {
 		if (e.inputType != 'deleteContentBackward' && e.inputType != 'deleteByCut' && e.inputType != 'deleteContentForward') {
-
 			const startCursorPosition = e.target.selectionStart;
 			const endCursorPosition = e.target.value.length;
-
 			const value = e.target.value.replace(regExp, '');
-
 			const maskValue = mask.replace(regExp, '');
 			let maskCount = 0;
+			
 			if (maskValue.length) {
 				maskCount = maskValue.length;
 			}
@@ -161,22 +154,9 @@ class FormObj {
 		})
 	}
 
-	async submitForm() {
-		try {
-
-		} catch (e) {
-			console.log(e)
-		}
-	}
-
 	addEvents() {
 		this.params.fields.forEach((field) => {
-			let elem;
-			if (field.fieldName[0] == '.') {
-				elem = this.form.querySelector(`${field.fieldName}`);
-			} else {
-				elem = this.form.querySelector(`input[name='${field.fieldName}']`);
-			}
+			const elem = this.form.querySelector(field.selector);
 
 			field.status = false;
 
@@ -214,8 +194,6 @@ class FormObj {
 				if (this.isFormCorrect) {
 					if (this.events.submit.length) {
 						this.events.submit.forEach((func) => func(e));
-					} else {
-						this.form.submit();
 					}
 				} else {
 					e.preventDefault();
