@@ -46,7 +46,7 @@ class FormObj {
 			correct: []
 		};
 
-		this.addEvents();
+		this.init();
 	}
 
 	validateForm() {
@@ -154,13 +154,17 @@ class FormObj {
 		})
 	}
 
-	addEvents() {
+	init() {
 		this.params.fields.forEach((field) => {
 			const elem = this.form.querySelector(field.selector);
 
 			field.status = false;
 
 			if (elem) {
+				if (elem.hasAttribute('required')) {
+					field.required = true;
+				}
+				
 				if (field.realTime) {
 					elem.addEventListener('input', () => {
 						let regExp = this.realTimePresets[field.realTimeRegExp] ? this.realTimePresets[field.realTimeRegExp] : field.realTimeRegExp;
@@ -188,6 +192,8 @@ class FormObj {
 		})
 
 		if (this.form) {
+			this.form.setAttribute('novalidate', 'novalidate');
+
 			this.form.addEventListener('submit', (e) => {
 				this.validateForm();
 

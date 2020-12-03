@@ -10,13 +10,13 @@ document.addEventListener('DOMContentLoaded', function() {
 					maxLength: 32,
 					realTimeRegExp: 'text',
 					realTime: true,
-					required: true
+					// required: true
 				},
 				{
 					selector: '[name="phone"]',
 					realTimeRegExp: 'phone',
 					realTime: true,
-					required: true,
+					// required: true,
 					regExp: 'phone',
 					mask: '+7 (***) ***-**-**'
 				},
