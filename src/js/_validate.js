@@ -7,10 +7,22 @@ if ('NodeList' in window && !NodeList.prototype.forEach) {
 	};
 }
 
+const deepClone = obj => {
+	if (obj === null) return null;
+
+	let clone = Object.assign({}, obj);
+
+	Object.keys(clone).forEach(key => {
+		clone[key] = typeof obj[key] === "object" ? deepClone(obj[key]) : obj[key]
+	});
+
+	return Array.isArray(obj) && obj.length ? (clone.length = obj.length) && Array.from(clone) : Array.isArray(obj) ? Array.from(obj) : clone;
+};
+
 class FormObj {
 	constructor(form, params) {
 		this.form = form;
-		this.params = params;
+		this.params = deepClone(params);
 		this.isFormCorrect = false;
 
 		this.classes = {
@@ -119,7 +131,7 @@ class FormObj {
 			const value = e.target.value.replace(regExp, '');
 			const maskValue = mask.replace(regExp, '');
 			let maskCount = 0;
-			
+
 			if (maskValue.length) {
 				maskCount = maskValue.length;
 			}
@@ -164,7 +176,7 @@ class FormObj {
 				if (elem.hasAttribute('required')) {
 					field.required = true;
 				}
-				
+
 				if (field.realTime) {
 					elem.addEventListener('input', () => {
 						let regExp = this.realTimePresets[field.realTimeRegExp] ? this.realTimePresets[field.realTimeRegExp] : field.realTimeRegExp;
@@ -212,10 +224,12 @@ class FormObj {
 export default class Form {
 	constructor(form, params) {
 		this.forms = [];
+
 		if (!(form instanceof Element)) {
 			form.forEach(item => {
 				if (item) {
-					this.forms.push(new FormObj(item, params));
+					const myForm = new FormObj(item, params);
+					this.forms.push(myForm);
 				}
 			})
 		} else if (form) {

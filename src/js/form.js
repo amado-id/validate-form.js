@@ -10,13 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
 					maxLength: 32,
 					realTimeRegExp: 'text',
 					realTime: true,
-					// required: true
 				},
 				{
 					selector: '[name="phone"]',
 					realTimeRegExp: 'phone',
 					realTime: true,
-					// required: true,
 					regExp: 'phone',
 					mask: '+7 (***) ***-**-**'
 				},
@@ -26,9 +24,5 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 			]
 		});
-
-		// form.on('submit', function(e) {
-		// 	e.preventDefault()
-		// })
 	}
 })
